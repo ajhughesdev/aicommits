@@ -68,7 +68,7 @@ export class Provider {
 				message: 'Enter Ollama endpoint (leave empty for default):',
 				placeholder: currentEndpoint,
 			});
-			if (endpoint && endpoint !== 'http://localhost:11434/v1') {
+			if (endpoint && endpoint !== this.def.baseUrl) {
 				updates.push(['OPENAI_BASE_URL', endpoint as string]);
 			}
 		}
@@ -79,7 +79,7 @@ export class Provider {
 				message: 'Enter LM Studio endpoint (leave empty for default):',
 				placeholder: currentEndpoint,
 			});
-			if (endpoint && endpoint !== 'http://localhost:1234/v1') {
+			if (endpoint && endpoint !== this.def.baseUrl) {
 				updates.push(['OPENAI_BASE_URL', endpoint as string]);
 			}
 		}
