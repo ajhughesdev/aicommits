@@ -68,7 +68,18 @@ export class Provider {
 				message: 'Enter Ollama endpoint (leave empty for default):',
 				placeholder: currentEndpoint,
 			});
-			if (endpoint && endpoint !== 'http://localhost:11434/v1') {
+			if (endpoint && endpoint !== this.def.baseUrl) {
+				updates.push(['OPENAI_BASE_URL', endpoint as string]);
+			}
+		}
+
+		if (this.name === 'lmstudio') {
+			const currentEndpoint = this.getBaseUrl();
+			const endpoint = await text({
+				message: 'Enter LM Studio endpoint (leave empty for default):',
+				placeholder: currentEndpoint,
+			});
+			if (endpoint && endpoint !== this.def.baseUrl) {
 				updates.push(['OPENAI_BASE_URL', endpoint as string]);
 			}
 		}
@@ -100,6 +111,10 @@ export class Provider {
 	getBaseUrl(): string {
 		if (this.name === 'custom') {
 			return this.config.OPENAI_BASE_URL || '';
+		}
+		// Allow overriding base URL for ollama and lmstudio
+		if ((this.name === 'ollama' || this.name === 'lmstudio') && this.config.OPENAI_BASE_URL) {
+			return this.config.OPENAI_BASE_URL;
 		}
 		return this.def.baseUrl;
 	}
